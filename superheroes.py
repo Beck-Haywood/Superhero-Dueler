@@ -63,11 +63,16 @@ class Hero:
     def fight(self, opponent):
         ''' Current Hero will take turns fighting the opponent hero passed in.
         '''
-        #if self.is_alive == True and opponent.is_alive == True:
-            #while self.is_alive == True and opponent.is_alive == True:
-                #take damage
-        #elif self.abilites == [] and opponent.abilites == []:
-            #print("Draw!")
+        if self.is_alive() == True and opponent.is_alive() == True:
+            while self.is_alive() == True and opponent.is_alive() == True:
+                opponent.take_damage(self.attack())
+                self.take_damage(opponent.attack())
+                if self.is_alive() == False and opponent.is_alive() == True:
+                    print('{} Wins!'.format(opponent.name))
+                elif self.is_alive() == True and opponent.is_alive() == False:
+                    print('{} Wins!'.format(self.name))
+                elif self.is_alive() == False and opponent.is_alive() == False:
+                    print("They both died...")
 if __name__ == "__main__":
 # If you run this file from the terminal
     # this block is executed.
@@ -91,4 +96,18 @@ if __name__ == "__main__":
     #my_hero.add_ability(onepunch)
     #print(my_hero.attack())
     #print(my_hero.abilities)
+
+hero1 = Hero("Wonder Woman")
+hero2 = Hero("Dumbledore")
+ability1 = Ability("Super Speed", 75)
+ability2 = Ability("Super Eyes", 75)
+ability3 = Ability("Wizard Wand", 75)
+ability4 = Ability("Wizard Beard", 75)
+hero1.add_ability(ability1)
+hero1.add_ability(ability2)
+hero2.add_ability(ability3)
+hero2.add_ability(ability4)
+hero1.fight(hero2)
+print(hero1.current_health)
+print(hero2.current_health)
 
