@@ -39,30 +39,56 @@ class Hero:
         Armor: Armor Object
         '''
         self.armors.append(armor)
-    def defend(self, damage_amt):
+    def defend(self):
         '''Runs 'block' method on each armor.
             Returns sum of all blocks
         '''
         total_block = 0
         for armor in self.armors:
             armor.block()
-            new_block = ability.attack()
+            new_block = armor.block()
             total_block += new_block
-
+        return total_block
+    def take_damage(self, damage):
+        '''Updates self.current_health to reflect the damage minus the defense. '''
+        block_amt = self.defend()
+        self.current_health = self.current_health - abs(block_amt - damage)
+    def is_alive(self):
+        '''Return True or False depending on whether the hero is alive or not.
+        '''
+        if self.current_health <= 0:
+            return False
+        else:
+            return True
+    def fight(self, opponent):
+        ''' Current Hero will take turns fighting the opponent hero passed in.
+        '''
+        #if self.is_alive == True and opponent.is_alive == True:
+            #while self.is_alive == True and opponent.is_alive == True:
+                #take damage
+        #elif self.abilites == [] and opponent.abilites == []:
+            #print("Draw!")
 if __name__ == "__main__":
 # If you run this file from the terminal
     # this block is executed.
-    ability = Ability("Great Debugging", 50)
-    onepunch = Ability("OnePunch", 50)
-    print(ability.name)
-    print(ability.attack())
-    print(onepunch.name)
-    print(onepunch.attack())
-    my_hero = Hero("Saitama", 20000)
+    '''
+    my_hero = Hero("Saitama", 100)
+    shield = Armor("Sheild", 50)
+    my_hero.add_armor(shield)
+    my_hero.take_damage(50)
+    print(my_hero.current_health)
+    '''
+    '''
+    hero = Hero("Grace Hopper", 200)
+    hero.take_damage(150)
+    print(hero.is_alive())
+    hero.take_damage(15000)
+    print(hero.is_alive())
+    '''
     #print(my_hero.name)
     #print(my_hero.current_health)
-    my_hero.add_ability(ability)
-    my_hero.add_ability(onepunch)
-    print(my_hero.attack())
+    #my_hero.add_ability(ability)
+    #my_hero.add_ability(onepunch)
+    #print(my_hero.attack())
     #print(my_hero.abilities)
 
