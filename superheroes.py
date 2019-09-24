@@ -73,6 +73,30 @@ class Hero:
                     print('{} Wins!'.format(self.name))
                 elif self.is_alive() == False and opponent.is_alive() == False:
                     print("They both died...")
+class Weapon(Ability):
+    def attack(self):
+        """  This method returns a random value
+        between one half to the full attack power of the weapon.
+        """
+        return random.randint((self.max_damage // 2), self.max_damage)
+class Team(Hero):
+    def __init__(self, name):
+        ''' Initialize your team with its team name
+        '''
+        self.name = name
+        self.heroes = []
+        # TODO: Implement this constructor by assigning the name and heroes, which should be an empty list
+    def add_hero(self, hero):
+        self.heroes.append(hero)
+    def remove_hero(self, name):
+        index = self.heroes.index(name)
+        if self.heroes == []:
+            return 0
+        else:
+            self.heroes.pop(index)
+    def view_all_hero(self):
+        for hero in self.heroes:
+            print(hero)
 if __name__ == "__main__":
 # If you run this file from the terminal
     # this block is executed.
@@ -111,3 +135,9 @@ hero1.fight(hero2)
 print(hero1.current_health)
 print(hero2.current_health)
 
+team = Team("Squad Team")
+team.add_hero("Beck")
+team.view_all_hero()
+team.add_hero('Bruh')
+team.remove_hero("Beck")
+team.view_all_hero()
