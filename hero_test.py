@@ -274,13 +274,13 @@ def test_team_remove_hero():
     assert len(team.heroes) == 0
 
 
-#def test_team_remove_unlisted(code):
-  #  # Test that if no results found return 0
- #   team = superheroes.Team("One")
- #  jodie = superheroes.Hero("Jodie Foster")
- #   team.add_hero(jodie)
-#    code = team.remove_hero("Athena")
- #   assert code == 0
+def test_team_remove_unlisted():
+   # Test that if no results found return 0
+   team = superheroes.Team("One")
+   jodie = superheroes.Hero("Jodie Foster")
+   team.add_hero(jodie)
+   code = team.remove_hero("Athena")
+   assert code == 0
 
 
 def test_team_remove_empty_list():
@@ -288,13 +288,13 @@ def test_team_remove_empty_list():
     assert team.remove_hero("Athena") == 0
 
 
-#def test_print_heroes():
-#   team = superheroes.Team("One")
-#    jodie = superheroes.Hero("Jodie Foster")
-#    team.add_hero(jodie)
-#    athena = superheroes.Hero("Athena")
-#    team.add_hero(athena)
-#    output_string = capture_console_output(team.view_all_heroes())
+def test_print_heroes():
+   team = superheroes.Team("One")
+   jodie = superheroes.Hero("Jodie Foster")
+   team.add_hero(jodie)
+   athena = superheroes.Hero("Athena")
+   team.add_hero(athena)
+   output_string = capture_console_output(team.view_all_hero)
 
-#    assert "Jodie Foster" in output_string
-#    assert "Athena" in output_string
+   assert "Jodie Foster" in output_string
+   assert "Athena" in output_string
