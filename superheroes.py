@@ -130,24 +130,25 @@ class Team(object):
     def team_members_alive(self):
         heroes_alive = []
         for hero in self.heroes:
-            if hero.is_alive == True:
+            if hero.is_alive() == True:
                 heroes_alive.append(hero)
         return heroes_alive
     def number_of_team_members_alive(self):
         number_heroes_alive = 0
         for hero in self.heroes:
-            if hero.is_alive == True:
+            if hero.is_alive() == True:
                 number_heroes_alive += 1
         return number_heroes_alive
     def attack(self, other_team):
         #create an instance of 1 hero and another randomize them on each team and set equal to the instance  then call fight on eachother
+        
         while self.number_of_team_members_alive() > 0 and other_team.number_of_team_members_alive() > 0:
             hero1 = random.choice(self.team_members_alive())
             hero2 = random.choice(other_team.team_members_alive())
-        hero1.fight(hero2)
+            hero1.fight(hero2)
     def revive_heroes(self, health=100):
         for hero in self.heroes:
-            hero.current_health == 100
+            hero.current_health = 100
     def stats(self):
         for hero in self.heroes:
             hero.calculate_hero_stats()
@@ -175,23 +176,26 @@ if __name__ == "__main__":
     #print(my_hero.attack())
     #print(my_hero.abilities)
 
-hero1 = Hero("Wonder Woman")
-hero2 = Hero("Dumbledore")
-ability1 = Ability("Super Speed", 75)
-ability2 = Ability("Super Eyes", 75)
-ability3 = Ability("Wizard Wand", 75)
-ability4 = Ability("Wizard Beard", 75)
-hero1.add_ability(ability1)
-hero1.add_ability(ability2)
-hero2.add_ability(ability3)
-hero2.add_ability(ability4)
-hero1.fight(hero2)
-print(hero1.current_health)
-print(hero2.current_health)
+# hero1 = Hero("Wonder Woman")
+# hero2 = Hero("Dumbledore")
+# ability1 = Ability("Super Speed", 75)
+# ability2 = Ability("Super Eyes", 75)
+# ability3 = Ability("Wizard Wand", 75)
+# ability4 = Ability("Wizard Beard", 75)
+# hero1.add_ability(ability1)
+# hero1.add_ability(ability2)
+# hero2.add_ability(ability3)
+# hero2.add_ability(ability4)
+# hero1.fight(hero2)
+# print(hero1.current_health)
+# print(hero2.current_health)
 
-team = Team("Squad Team")
-team.add_hero(hero1)
-team.view_all_hero()
-team.add_hero(hero2)
-team.remove_hero("Wonder Woman")
-team.view_all_hero()
+# team = Team("Squad Team")
+# team.add_hero(hero1)
+# team.view_all_hero()
+
+# team1 = Team("Squad Team2")
+# team1.add_hero(hero2)
+# team1.view_all_hero()
+
+# team.attack(team1)
