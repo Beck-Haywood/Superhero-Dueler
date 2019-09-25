@@ -127,8 +127,24 @@ class Team(object):
     def view_all_hero(self):
         for hero in self.heroes:
             print(str(hero.name))
+    def team_members_alive(self):
+        heroes_alive = []
+        for hero in self.heroes:
+            if hero.is_alive == True:
+                heroes_alive.append(hero)
+        return heroes_alive
+    def number_of_team_members_alive(self):
+        number_heroes_alive = 0
+        for hero in self.heroes:
+            if hero.is_alive == True:
+                number_heroes_alive += 1
+        return number_heroes_alive
     def attack(self, other_team):
-        pass
+        #create an instance of 1 hero and another randomize them on each team and set equal to the instance  then call fight on eachother
+        while self.number_of_team_members_alive() > 0 and other_team.number_of_team_members_alive() > 0:
+            hero1 = random.choice(self.team_members_alive())
+            hero2 = random.choice(other_team.team_members_alive())
+        hero1.fight(hero2)
     def revive_heroes(self, health=100):
         for hero in self.heroes:
             hero.current_health == 100
