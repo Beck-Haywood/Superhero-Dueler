@@ -54,7 +54,10 @@ class Hero:
     def take_damage(self, damage):
         '''Updates self.current_health to reflect the damage minus the defense. '''
         block_amt = self.defend()
-        self.current_health = self.current_health - abs(block_amt - damage)
+        if damage < block_amt:
+            self.current_health = self.current_health
+        else: 
+            self.current_health = self.current_health - (damage - block_amt)
     def is_alive(self):
         '''Return True or False depending on whether the hero is alive or not.
         '''
@@ -84,6 +87,8 @@ class Hero:
             while self.is_alive() == True and opponent.is_alive() == True:
                 opponent.take_damage(self.attack())
                 self.take_damage(opponent.attack())
+                print(self.current_health)
+                print(opponent.current_health)
                 if self.is_alive() == False and opponent.is_alive() == True:
                     print('{} Wins!'.format(opponent.name))
                     opponent.add_kill(1)
@@ -161,36 +166,36 @@ class Arena:
         team_one: None
         team_two: None
         '''
-        self.team_one = []
-        self.team_two = []
+        self.team_one = None
+        self.team_two = None
     def create_ability(self):
         '''Prompt for Ability information.
         return Ability with values from user Input
         '''
-        ability_name = user_input("Input ability name ").lower()
-        ability_damage = user_input("Input ability damage ").lower()
+        ability_name = input("Input ability name ").lower()
+        ability_damage = int(input("Input ability damage "))
         return Ability(ability_name, ability_damage)
     def create_weapon(self):
         '''Prompt user for Weapon information
             return Weapon with values from user input.
         '''
-        weapon_name = user_input("Input weapon name ").lower()
-        weapon_damage = user_input("Input weapon damage ").lower()
+        weapon_name = input("Input weapon name ").lower()
+        weapon_damage = int(input("Input weapon damage "))
         return Ability(weapon_name, weapon_damage)
     def create_armor(self):
         '''Prompt user for Armor information
           return Armor with values from user input.
         '''
-        armor_name = user_input("Input armor name ").lower()
-        armor_damage = user_input("Input armor value ").lower()
-        return Armor(armor_name, armor_damage)
+        armor_name = input("Input armor name ").lower()
+        armor_points = int(input("Input armor value "))
+        return Armor(armor_name, armor_points)
     def create_hero(self):
         '''Prompt user for Hero information
           return Hero with values from user input.
         '''
         
-        hero_name = user_input("Input hero name ").lower
-        hero_health = user_input("Input hero health")
+        hero_name = input("Input hero name ").lower()
+        hero_health = int(input("Input hero health "))
         hero = Hero(hero_name, hero_health)
 
         desicion_ability = "YES"
@@ -212,12 +217,64 @@ class Arena:
             desicion_armor = input("Would you like to add more armor? (Yes or No) ").upper()
         # return the new hero object
         return hero
+    def build_team_one(self):
+        '''Prompt the user to build team_one '''
+        # TODO: This method should allow a user to create team one.
+        # Prompt the user for the number of Heroes on team one
+        number_of_team_members = int(input("Choose the amount of heros on this team (Enter a Whole Number) ")) 
+        team_name = input("Enter a team name: ")
+        self.team_one = Team(team_name)
+        for i in range(number_of_team_members):
+            hero = self.create_hero()
+            self.team_one.heroes.append(hero)
+            i += 1
+            i -= 1
+        return self.team_one
         
-def user_input(prompt):
-    # the input function will display a message in the terminal
-    # and wait for user input.
-    user_input = input(prompt)
-    return user_input
+    def build_team_two(self):
+        '''Prompt the user to build team_two'''
+        # TODO: This method should allow a user to create team two.
+        # Prompt the user for the number of Heroes on team two
+        number_of_team_members = int(input("Choose the amount of heros on this team (Enter a Whole Number) ")) 
+        team_name = input("Enter a team name: ")
+        self.team_two = Team(team_name)
+        for i in range(number_of_team_members):
+            hero = self.create_hero()
+            self.team_two.heroes.append(hero)
+            i += 1
+            i -= 1
+        return self.team_two
+    def team_battle(self):
+        team_one = self.team_one
+        team_two = self.team_two
+        team_one.attack(team_two)
+    def team_kda(self, team):
+        team_deaths = 0
+        team_kills = 0
+        for hero in team.heroes:
+            team_deaths += hero.deaths
+            team_kills += hero.kills
+        if team_deaths < 1:
+            team_kda = team_kills
+        else:
+            team_kda = team_kills // team_deaths
+        return team_kda
+        
+    def winner(self):
+        if self.team_kda(self.team_one) > self.team_kda(self.team_two):
+            return self.team_one
+        else:
+            return self.team_two
+    def alive_heroes(self):
+        alive_heroes = []
+        for hero in self.winner().team_members_alive():
+            alive_heroes.append(hero.name)
+        return alive_heroes
+    def show_stats(self):
+        print(f"Winning team: {self.winner().name}" )
+        print(f"Alive heroes: {self.alive_heroes()}")
+        print(f"Winning team's KDA: {self.team_kda(self.winner())}")
+        print("Losing team's KDA: ")
 if __name__ == "__main__":
 # If you run this file from the terminal
     # this block is executed.
@@ -265,5 +322,8 @@ if __name__ == "__main__":
 # team1.view_all_hero()
 
 # team.attack(team1)
-deathPit = Arena()
-deathPit.create_hero()
+arena = Arena()
+arena.build_team_one()
+arena.build_team_two()
+arena.team_battle()
+arena.show_stats()
