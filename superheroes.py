@@ -98,6 +98,10 @@ class Hero:
                     opponent.add_death(1)
                     opponent.add_kill(1)
                     self.add_death(1)
+    def add_weapon(self, weapon):
+        '''add weapon to self.abilities'''
+        self.abilities.append(weapon)
+        pass
 class Weapon(Ability):
     def attack(self):
         """  This method returns a random value
@@ -141,7 +145,6 @@ class Team(object):
         return number_heroes_alive
     def attack(self, other_team):
         #create an instance of 1 hero and another randomize them on each team and set equal to the instance  then call fight on eachother
-        
         while self.number_of_team_members_alive() > 0 and other_team.number_of_team_members_alive() > 0:
             hero1 = random.choice(self.team_members_alive())
             hero2 = random.choice(other_team.team_members_alive())
@@ -152,6 +155,69 @@ class Team(object):
     def stats(self):
         for hero in self.heroes:
             hero.calculate_hero_stats()
+class Arena:
+    def __init__(self):
+        '''Instantiate properties
+        team_one: None
+        team_two: None
+        '''
+        self.team_one = []
+        self.team_two = []
+    def create_ability(self):
+        '''Prompt for Ability information.
+        return Ability with values from user Input
+        '''
+        ability_name = user_input("Input ability name ").lower()
+        ability_damage = user_input("Input ability damage ").lower()
+        return Ability(ability_name, ability_damage)
+    def create_weapon(self):
+        '''Prompt user for Weapon information
+            return Weapon with values from user input.
+        '''
+        weapon_name = user_input("Input weapon name ").lower()
+        weapon_damage = user_input("Input weapon damage ").lower()
+        return Ability(weapon_name, weapon_damage)
+    def create_armor(self):
+        '''Prompt user for Armor information
+          return Armor with values from user input.
+        '''
+        armor_name = user_input("Input armor name ").lower()
+        armor_damage = user_input("Input armor value ").lower()
+        return Armor(armor_name, armor_damage)
+    def create_hero(self):
+        '''Prompt user for Hero information
+          return Hero with values from user input.
+        '''
+        
+        hero_name = user_input("Input hero name ").lower
+        hero_health = user_input("Input hero health")
+        hero = Hero(hero_name, hero_health)
+
+        desicion_ability = "YES"
+        while desicion_ability == "YES":
+            ability  = self.create_ability() 
+            hero.add_ability(ability)
+            desicion_ability = input("Would you like to add another ability? (Yes or No) ").upper()
+
+        desicion_weapon = "YES"
+        while desicion_weapon == "YES":
+            weapon  = self.create_weapon() 
+            hero.add_weapon(weapon)
+            desicion_weapon = input("Would you like to add another weapon? (Yes or No) ").upper()
+
+        desicion_armor = "YES"
+        while desicion_armor == "YES":
+            armor = self.create_armor() 
+            hero.add_armor(armor)
+            desicion_armor = input("Would you like to add more armor? (Yes or No) ").upper()
+        # return the new hero object
+        return hero
+        
+def user_input(prompt):
+    # the input function will display a message in the terminal
+    # and wait for user input.
+    user_input = input(prompt)
+    return user_input
 if __name__ == "__main__":
 # If you run this file from the terminal
     # this block is executed.
@@ -199,3 +265,5 @@ if __name__ == "__main__":
 # team1.view_all_hero()
 
 # team.attack(team1)
+deathPit = Arena()
+deathPit.create_hero()
