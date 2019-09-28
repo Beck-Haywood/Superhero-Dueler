@@ -87,8 +87,8 @@ class Hero:
             while self.is_alive() == True and opponent.is_alive() == True:
                 opponent.take_damage(self.attack())
                 self.take_damage(opponent.attack())
-                print(self.current_health)
-                print(opponent.current_health)
+                #print(self.current_health)
+                #print(opponent.current_health)
                 if self.is_alive() == False and opponent.is_alive() == True:
                     print('{} Wins!'.format(opponent.name))
                     opponent.add_kill(1)
@@ -265,6 +265,11 @@ class Arena:
             return self.team_one
         else:
             return self.team_two
+    def loser(self):
+        if self.team_kda(self.team_one) < self.team_kda(self.team_two):
+            return self.team_one
+        else:
+            return self.team_two
     def alive_heroes(self):
         alive_heroes = []
         for hero in self.winner().team_members_alive():
@@ -274,56 +279,29 @@ class Arena:
         print(f"Winning team: {self.winner().name}" )
         print(f"Alive heroes: {self.alive_heroes()}")
         print(f"Winning team's KDA: {self.team_kda(self.winner())}")
-        print("Losing team's KDA: ")
+        print(f"Losing team's KDA: {self.team_kda(self.loser())}")
+
 if __name__ == "__main__":
-# If you run this file from the terminal
-    # this block is executed.
-    '''
-    my_hero = Hero("Saitama", 100)
-    shield = Armor("Sheild", 50)
-    my_hero.add_armor(shield)
-    my_hero.take_damage(50)
-    print(my_hero.current_health)
-    '''
-    '''
-    hero = Hero("Grace Hopper", 200)
-    hero.take_damage(150)
-    print(hero.is_alive())
-    hero.take_damage(15000)
-    print(hero.is_alive())
-    '''
-    #print(my_hero.name)
-    #print(my_hero.current_health)
-    #my_hero.add_ability(ability)
-    #my_hero.add_ability(onepunch)
-    #print(my_hero.attack())
-    #print(my_hero.abilities)
+    game_is_running = True
 
-# hero1 = Hero("Wonder Woman")
-# hero2 = Hero("Dumbledore")
-# ability1 = Ability("Super Speed", 75)
-# ability2 = Ability("Super Eyes", 75)
-# ability3 = Ability("Wizard Wand", 75)
-# ability4 = Ability("Wizard Beard", 75)
-# hero1.add_ability(ability1)
-# hero1.add_ability(ability2)
-# hero2.add_ability(ability3)
-# hero2.add_ability(ability4)
-# hero1.fight(hero2)
-# print(hero1.current_health)
-# print(hero2.current_health)
+    # Instantiate Game Arena
+    arena = Arena()
 
-# team = Team("Squad Team")
-# team.add_hero(hero1)
-# team.view_all_hero()
+    #Build Teams
+    arena.build_team_one()
+    arena.build_team_two()
 
-# team1 = Team("Squad Team2")
-# team1.add_hero(hero2)
-# team1.view_all_hero()
+    while game_is_running:
 
-# team.attack(team1)
-arena = Arena()
-arena.build_team_one()
-arena.build_team_two()
-arena.team_battle()
-arena.show_stats()
+        arena.team_battle()
+        arena.show_stats()
+        play_again = input("Play Again? Y or N: ")
+
+        #Check for Player Input
+        if play_again.lower() == "n":
+            game_is_running = False
+
+        else:
+            #Revive heroes to play again
+            arena.team_one.revive_heroes()
+            arena.team_two.revive_heroes()
